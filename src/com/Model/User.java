@@ -105,6 +105,9 @@ public class User {
                     case "operator":
                         obj = new Operator();
                         break;
+                    case "admin":
+                        obj = new Admin();
+                        break;
                     default:
                         obj = new User();
                 }

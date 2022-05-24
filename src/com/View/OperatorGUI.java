@@ -179,9 +179,4 @@ public class OperatorGUI extends JFrame {
 
 
 
-    public static void main(String[] args){
-        Helper.setLayout();
-        Operator operator = new Operator(1,"qwe","qwe", "qwe", "operator");
-        OperatorGUI op = new OperatorGUI(operator);
-    }
 }

@@ -66,6 +66,9 @@ public class Helper {
     public static boolean isFieldEmpty(JTextField field){
         return field.getText().trim().isEmpty();
     }
+    public static boolean isAreaEmpty(JTextArea area){
+        return area.getText().trim().isEmpty();
+    }
 
 
 // user search için dinamik query oluşturma
@@ -90,6 +93,35 @@ public class Helper {
                 msg = str;
         }
         return JOptionPane.showConfirmDialog(null,msg,"Son Kararın Mı?",JOptionPane.YES_NO_OPTION) ==0;
+    }
+
+//Jradio lara Konaklama tipi metinleri için
+    public static String hotelType(String number){
+        String type="";
+        switch (number){
+            case "1":
+                type = "Ultra Herşey Dahil";
+                break;
+            case "2":
+                type = "Herşey Dahil";
+                break;
+            case "3":
+                type = "Oda Kahvaltı";
+                break;
+            case "4":
+                type = "Tam Pansiyon";
+                break;
+            case "5":
+                type = "Yarım Pansiyon";
+                break;
+            case "6":
+                type = "Sadece Yatak";
+                break;
+            case "7":
+                type = "Alkol Hariç Full credit";
+                break;
+        }
+        return type;
     }
 
 

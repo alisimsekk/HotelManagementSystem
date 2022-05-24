@@ -2,12 +2,12 @@ package com.View;
 
 import com.Helper.Config;
 import com.Helper.Helper;
+import com.Model.Admin;
 import com.Model.Operator;
 import com.Model.User;
 
 import javax.swing.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+
 
 public class LoginGUI extends JFrame {
     private JPanel wrapper;
@@ -40,6 +40,9 @@ public class LoginGUI extends JFrame {
                     switch (u.getType()){
                         case "operator":
                             OperatorGUI opGUI = new OperatorGUI((Operator) u);
+                            break;
+                        case "admin":
+                            AdminGUI adGUI = new AdminGUI((Admin) u);
                             break;
                     }
                     dispose();
