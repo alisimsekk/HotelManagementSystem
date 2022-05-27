@@ -7,6 +7,7 @@ import com.Model.*;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.event.*;
+import java.util.Date;
 
 
 public class AdminGUI extends JFrame {
@@ -31,8 +32,15 @@ public class AdminGUI extends JFrame {
     private JTable tbl_room_list;
     private JScrollPane scrl_room_property;
     private JTable tbl_room_property;
-    private JScrollPane scrl_room_price;
     private JTable tbl_room_price;
+    private JButton btn_room_add;
+    private JPanel room_sh_form;
+    private JTextField fld_region_hotelName;
+    private JTextField fld_chec_in;
+    private JTextField fld_check_out;
+    private JTextField fld_adult_numb;
+    private JTextField fld_child_numb;
+    private JButton btn_room_sh;
 
     DefaultTableModel mdl_hotel_list;
     private Object[] row_hotel_list;
@@ -50,10 +58,6 @@ public class AdminGUI extends JFrame {
     DefaultTableModel mdl_room_properties;
     private Object[] row_room_properties;
     private int select_room_id;
-
-    DefaultTableModel mdl_room_price;
-    private Object[] row_room_price;
-
 
 
     private final Admin admin;
@@ -151,7 +155,7 @@ public class AdminGUI extends JFrame {
             }
         };
 
-        Object[] col_room_list = {"id", "Hotel Adı", "Oda Tipi", "Stok", "Yetişkin Fiyatı(1.Dönem)", "Çocuk Fiyatı(1.Dönem)", "Yetişkin Fiyatı(2.Dönem)","Çocuk Fiyatı(2.Dönem)"};
+        Object[] col_room_list = {"id", "Hotel Adı", "Oda Tipi", "Stok", "Sezon Tarihleri", "Yetişkin Fiyatı","Çocuk Fiyatı", "Pansiyon Tipi"};
         mdl_room_list.setColumnIdentifiers(col_room_list);
         row_room_list = new Object[col_room_list.length];
         loadRoomListModel();
@@ -170,7 +174,7 @@ public class AdminGUI extends JFrame {
             }
         };
 
-        Object[] col_room_properties = {"Oda Özellikleri"};
+        Object[] col_room_properties = {"Oda Özellikleri", "Yatak Bilgisi", "Alan(m2)" };
         mdl_room_properties.setColumnIdentifiers(col_room_properties);
         row_room_properties = new Object[col_room_properties.length];
         //loadRoomPropertiesModel();
@@ -186,35 +190,11 @@ public class AdminGUI extends JFrame {
 
             }
             loadRoomPropertiesModel(select_room_id);
-            loadRoomPriceModel(select_room_id);
+
             select_room_id = 0;
         });
 
 //oda özellikleri tablosu kodları bitişi
-
-
-//oda fiyatları tablosu kodları başlangıcı
-        mdl_room_price = new DefaultTableModel(){
-            @Override
-            public boolean isCellEditable(int row, int column) {
-                if (column == 0)
-                    return false;
-                return super.isCellEditable(row, column);
-            }
-        };
-
-        Object[] col_room_price = {"Konaklama Dönemi", "Yetişkin Fiyatı(12+)", "Çocuk Fiyatı(4-11)"};
-        mdl_room_price.setColumnIdentifiers(col_room_price);
-        row_room_price = new Object[col_room_price.length];
-        //loadRoomPriceModel(select_room_id);
-        tbl_room_price.setModel(mdl_room_price);
-        tbl_room_price.getTableHeader().setReorderingAllowed(false);
-
-//oda fiyatları tablosu kodları bitişi
-
-
-
-
 
 //admin panel çıkış butonu
         btn_logout.addActionListener(e -> {
@@ -235,8 +215,25 @@ public class AdminGUI extends JFrame {
             });
         });
 
+//oda yönetim sayfası oda ekle butonu
+        btn_room_add.addActionListener(e -> {
+            RoomAddGUI roomAddGUI = new RoomAddGUI(admin);
+            roomAddGUI.addWindowListener(new WindowAdapter() {
+                @Override
+                public void windowClosed(WindowEvent e) {
+                    loadRoomListModel();
+                    tbl_room_list.getSelectionModel().clearSelection();
+                    super.windowClosed(e);
+                }
+            });
+        });
 
 
+//oda arama butonu kodları
+        btn_room_sh.addActionListener(e -> {
+            String regionHotelName = fld_region_hotelName.getText();
+
+        });
     }
 
 
@@ -290,10 +287,10 @@ public class AdminGUI extends JFrame {
             row_room_list[i++] = Hotel.getFetch(obj.getHotel_id()).getName();
             row_room_list[i++] = obj.getRoom_type();
             row_room_list[i++] = obj.getStock();
-            row_room_list[i++] = obj.getAdult_price1();
-            row_room_list[i++] = obj.getChild_price1();
-            row_room_list[i++] = obj.getAdult_price2();
-            row_room_list[i++] = obj.getChild_price2();
+            row_room_list[i++] = HotelSeason.getFetch(obj.getSeason_id()).getSeason_start() + " - " + HotelSeason.getFetch(obj.getSeason_id()).getSeason_end();
+            row_room_list[i++] = obj.getAdult_price();
+            row_room_list[i++] = obj.getChild_price();
+            row_room_list[i++] = HotelType.getFetch(obj.getHotel_type_id()).getType();
             mdl_room_list.addRow(row_room_list);
         }
     }
@@ -305,10 +302,12 @@ public class AdminGUI extends JFrame {
         for (RoomProperties obj : RoomProperties.getListByRoomID(id)){
             i = 0;
             row_room_properties[i++] = obj.getProperty();
+            row_room_properties[i++] = obj.getBed();
+            row_room_properties[i++] = obj.getArea();
             mdl_room_properties.addRow(row_room_properties);
         }
     }
-
+/*
     private void loadRoomPriceModel(int id) {
         DefaultTableModel clearModel = (DefaultTableModel) tbl_room_price.getModel();
         clearModel.setRowCount(0);
@@ -336,6 +335,8 @@ public class AdminGUI extends JFrame {
 
         }
     }
+
+ */
 
 
 

@@ -42,7 +42,7 @@ public class HotelAddGUI extends JFrame {
     public HotelAddGUI(Admin admin){
         this.admin = admin;
         add(wrapper);
-        setSize(1000,500);
+        setSize(800,500);
         setLocation(Helper.screenCenterPoint("x",getSize()), Helper.screenCenterPoint("y",getSize()));
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         setTitle(Config.PROJECT_TITLE);
@@ -57,6 +57,7 @@ public class HotelAddGUI extends JFrame {
         radioButton7.setText(Helper.hotelType("7"));
 
         select_star = cmb_hotel_star.getSelectedItem().toString();
+
 //hotel kaydetme buton kodları
         btn_hotel_add.addActionListener(e -> {
             if (Helper.isFieldEmpty(fld_hotel_name) || Helper.isAreaEmpty(txtarea_hotel_property) ||
@@ -123,6 +124,7 @@ public class HotelAddGUI extends JFrame {
                                 break;
                         }
                     }
+
                     HotelSeason.add(season_start1, season_end1, added_hotel_id);
 
                     if (!Helper.isFieldEmpty(fld_hotel_season_start2) && !Helper.isFieldEmpty(fld_hotel_season_end2)){
@@ -150,8 +152,6 @@ public class HotelAddGUI extends JFrame {
                 }
             }
         });
-
-
 
     }
 

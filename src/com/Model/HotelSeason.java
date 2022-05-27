@@ -59,6 +59,24 @@ public class HotelSeason {
         this.hotel_id = hotel_id;
     }
 
+    public static HotelSeason getFetch(int id) {
+        HotelSeason obj = null;
+        String query = "SELECT * FROM season WHERE id = ?";
+        try {
+            PreparedStatement pr = DBConnector.getInstance().prepareStatement(query);
+            pr.setInt(1, id);
+            ResultSet rs = pr.executeQuery();
+            if (rs.next()){
+                obj = new HotelSeason(rs.getInt("id"), rs.getString("season_start"), rs.getString("season_end"), rs.getInt("hotel_id"));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return obj;
+    }
+
+
     public static ArrayList<HotelSeason> getList(){
         ArrayList<HotelSeason> hotelSeasonList = new ArrayList<>();
         HotelSeason obj;
@@ -91,6 +109,7 @@ public class HotelSeason {
             ResultSet rs = pr.executeQuery();
             while (rs.next()){
                 obj = new HotelSeason();
+                obj.setId(rs.getInt("id"));
                 obj.setSeason_start(rs.getString("season_start"));
                 obj.setSeason_end(rs.getString("season_end"));
                 obj.setHotel_id(rs.getInt("hotel_id"));

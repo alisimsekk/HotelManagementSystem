@@ -95,7 +95,7 @@ public class Helper {
         return JOptionPane.showConfirmDialog(null,msg,"Son Kararın Mı?",JOptionPane.YES_NO_OPTION) ==0;
     }
 
-//Jradio lara Konaklama tipi metinleri için
+//Jradio lara Konaklama tipi metinleri için, hotel ekleme ekranındaki için
     public static String hotelType(String number){
         String type="";
         switch (number){
@@ -122,6 +122,30 @@ public class Helper {
                 break;
         }
         return type;
+    }
+
+
+//Jradio lara oda özellikleri metinleri için, oda ekleme ekranındaki
+    public static String roomProperty(String number){
+        String property="";
+        switch (number){
+            case "1":
+                property = "Televizyon ";
+                break;
+            case "2":
+                property = "Minibar ";
+                break;
+            case "3":
+                property = "Oyun Konsolu";
+                break;
+            case "4":
+                property = "Kasa";
+                break;
+            case "5":
+                property = "Projeksiyon";
+                break;
+        }
+        return property;
     }
 
 

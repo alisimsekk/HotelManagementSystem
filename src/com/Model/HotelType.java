@@ -24,6 +24,24 @@ public class HotelType {
 
     }
 
+    public static HotelType getFetch(int id) {
+        HotelType obj = null;
+        String query = "SELECT * FROM type_hotel WHERE id = ?";
+        try {
+            PreparedStatement pr = DBConnector.getInstance().prepareStatement(query);
+            pr.setInt(1, id);
+            ResultSet rs = pr.executeQuery();
+            if (rs.next()){
+                obj = new HotelType(rs.getInt("id"), rs.getString("type"), rs.getInt("hotel_id"));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return obj;
+    }
+
+
     public static boolean add(String type, int hotel_id) {
         String query = "INSERT INTO type_hotel (type, hotel_id) VALUES (?,?)";
         try {
@@ -70,7 +88,9 @@ public class HotelType {
             ResultSet rs = pr.executeQuery(query);
             while (rs.next()){
                 obj = new HotelType();
+                obj.setId(rs.getInt("id"));
                 obj.setType(rs.getString("type"));
+                obj.setHotel_id(rs.getInt("hotel_id"));
                 hotelTypeList.add(obj);
             }
         } catch (SQLException e) {
@@ -92,7 +112,9 @@ public class HotelType {
             ResultSet rs = pr.executeQuery();
             while (rs.next()){
                 obj = new HotelType();
+                obj.setId(rs.getInt("id"));
                 obj.setType(rs.getString("type"));
+                obj.setHotel_id(rs.getInt("hotel_id"));
                 hotelTypeList.add(obj);
             }
         } catch (SQLException e) {

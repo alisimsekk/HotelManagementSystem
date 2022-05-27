@@ -1,6 +1,7 @@
 package com.Model;
 
 import com.Helper.DBConnector;
+import com.Helper.Helper;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -12,38 +13,57 @@ public class Room {
     private int id;
     private String room_type;
     private int stock;
-    private int adult_price1;
-    private int adult_price2;
-    private int child_price1;
-    private int child_price2;
+    private int season_id;
+    private int adult_price;
+    private int child_price;
+    private int hotel_type_id;
     private int hotel_id;
 
+
     private Hotel hotel;
-
-    public Room(int id, String room_type, int stock, int adult_price1, int child_price1, int adult_price2, int child_price2, int hotel_id) {
-        this.id = id;
-        this.room_type = room_type;
-        this.stock = stock;
-        this.adult_price1 = adult_price1;
-        this.child_price1 = child_price1;
-        this.adult_price2 = adult_price2;
-        this.child_price2 = child_price2;
-        this.hotel_id = hotel_id;
-        this.hotel = Hotel.getFetch(hotel_id);
-    }
-
-    public Room(int id, String room_type, int stock, int adult_price1, int child_price1, int hotel_id) {
-        this.id = id;
-        this.room_type = room_type;
-        this.stock = stock;
-        this.adult_price1 = adult_price1;
-        this.child_price1 = child_price1;
-        this.hotel_id = hotel_id;
-        this.hotel = Hotel.getFetch(hotel_id);
-    }
+    private HotelSeason hotelSeason;
+    private HotelType hotelType;
 
     public Room() {
 
+    }
+
+    public Room(int id, String room_type, int stock, int season_id, int adult_price, int child_price, int hotel_type_id, int hotel_id) {
+        this.id = id;
+        this.room_type = room_type;
+        this.stock = stock;
+        this.season_id = season_id;
+        this.adult_price = adult_price;
+        this.child_price = child_price;
+        this.hotel_type_id = hotel_type_id;
+        this.hotel_id = hotel_id;
+        this.hotel = Hotel.getFetch(hotel_id);
+        this.hotelSeason = HotelSeason.getFetch(season_id);
+        this.hotelType = HotelType.getFetch(hotel_type_id);
+    }
+
+    public static boolean add(String room_type, int stock, int season_id, int adult_price, int child_price, int hotel_type_id, int hotel_id) {
+        String query = "INSERT INTO room (room_type, stock, season_id, adult_price, child_price, hotel_type_id, hotel_id) VALUES (?,?,?,?,?,?,?)";
+        try {
+            PreparedStatement pr = DBConnector.getInstance().prepareStatement(query);
+            pr.setString(1,room_type);
+            pr.setInt(2,stock);
+            pr.setInt(3,season_id);
+            pr.setInt(4,adult_price);
+            pr.setInt(5,child_price);
+            pr.setInt(6,hotel_type_id);
+            pr.setInt(7,hotel_id);
+
+            int response = pr.executeUpdate();
+
+            if (response == -1){
+                Helper.showMsg("error");
+            }
+            return response != -1;
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+        return true;
     }
 
     public int getId() {
@@ -70,36 +90,36 @@ public class Room {
         this.stock = stock;
     }
 
-    public int getAdult_price1() {
-        return adult_price1;
+    public int getSeason_id() {
+        return season_id;
     }
 
-    public void setAdult_price1(int adult_price1) {
-        this.adult_price1 = adult_price1;
+    public void setSeason_id(int season_id) {
+        this.season_id = season_id;
     }
 
-    public int getAdult_price2() {
-        return adult_price2;
+    public int getAdult_price() {
+        return adult_price;
     }
 
-    public void setAdult_price2(int adult_price2) {
-        this.adult_price2 = adult_price2;
+    public void setAdult_price(int adult_price) {
+        this.adult_price = adult_price;
     }
 
-    public int getChild_price1() {
-        return child_price1;
+    public int getChild_price() {
+        return child_price;
     }
 
-    public void setChild_price1(int child_price1) {
-        this.child_price1 = child_price1;
+    public void setChild_price(int child_price) {
+        this.child_price = child_price;
     }
 
-    public int getChild_price2() {
-        return child_price2;
+    public int getHotel_type_id() {
+        return hotel_type_id;
     }
 
-    public void setChild_price2(int child_price2) {
-        this.child_price2 = child_price2;
+    public void setHotel_type_id(int hotel_type_id) {
+        this.hotel_type_id = hotel_type_id;
     }
 
     public int getHotel_id() {
@@ -110,12 +130,29 @@ public class Room {
         this.hotel_id = hotel_id;
     }
 
+
     public Hotel getHotel() {
         return hotel;
     }
 
     public void setHotel(Hotel hotel) {
         this.hotel = hotel;
+    }
+
+    public HotelSeason getHotelSeason() {
+        return hotelSeason;
+    }
+
+    public void setHotelSeason(HotelSeason hotelSeason) {
+        this.hotelSeason = hotelSeason;
+    }
+
+    public HotelType getHotelType() {
+        return hotelType;
+    }
+
+    public void setHotelType(HotelType hotelType) {
+        this.hotelType = hotelType;
     }
 
     public static ArrayList<Room> getList(){
@@ -130,10 +167,10 @@ public class Room {
                 obj.setId(rs.getInt("id"));
                 obj.setRoom_type(rs.getString("room_type"));
                 obj.setStock(rs.getInt("stock"));
-                obj.setAdult_price1(rs.getInt("adult_price1"));
-                obj.setChild_price1(rs.getInt("child_price1"));
-                obj.setAdult_price2(rs.getInt("adult_price2"));
-                obj.setChild_price2(rs.getInt("child_price2"));
+                obj.setSeason_id(rs.getInt("season_id"));
+                obj.setAdult_price(rs.getInt("adult_price"));
+                obj.setChild_price(rs.getInt("child_price"));
+                obj.setHotel_type_id(rs.getInt("hotel_type_id"));
                 obj.setHotel_id(rs.getInt("hotel_id"));
                 roomList.add(obj);
             }
@@ -154,8 +191,7 @@ public class Room {
             pr.setInt(1, id);
             ResultSet rs = pr.executeQuery();
             if (rs.next()){
-                obj = new Room(rs.getInt("id"), rs.getString("room_type"), rs.getInt("stock"), rs.getInt("adult_price1"),
-                        rs.getInt("child_price1"), rs.getInt("adult_price2"), rs.getInt("child_price2"), rs.getInt("hotel_id"));
+                obj = new Room(rs.getInt("id"), rs.getString("room_type"), rs.getInt("stock"), rs.getInt("season_id"), rs.getInt("adult_price"), rs.getInt("child_price"), rs.getInt("hotel_type_id"), rs.getInt("hotel_id"));
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -171,15 +207,13 @@ public class Room {
             pr.setInt(1, id);
             ResultSet rs = pr.executeQuery();
             if (rs.next()){
-                obj = new Room(rs.getInt("id"), rs.getString("room_type"), rs.getInt("stock"), rs.getInt("adult_price1"),
-                        rs.getInt("child_price1"), rs.getInt("adult_price2"), rs.getInt("child_price2"), rs.getInt("hotel_id"));
+                obj = new Room(rs.getInt("id"), rs.getString("room_type"), rs.getInt("stock"), rs.getInt("season_id"), rs.getInt("adult_price"), rs.getInt("child_price"), rs.getInt("hotel_type_id"), rs.getInt("hotel_id"));
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
         return obj;
     }
-
 
 
 }

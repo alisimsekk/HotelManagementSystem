@@ -12,13 +12,17 @@ public class RoomProperties {
     private int id;
     private String property;
     private int room_id;
+    private String bed;
+    private int area;
 
     private Room room;
 
-    public RoomProperties(int id, String property, int room_id) {
+    public RoomProperties(int id, String property, int room_id, String bed, int area) {
         this.id = id;
         this.property = property;
         this.room_id = room_id;
+        this.bed = bed;
+        this.area = area;
         this.room = Room.getFetch(room_id);
     }
 
@@ -38,7 +42,7 @@ public class RoomProperties {
         return property;
     }
 
-    public void setPropery(String property) {
+    public void setProperty(String property) {
         this.property = property;
     }
 
@@ -58,7 +62,23 @@ public class RoomProperties {
         this.room = room;
     }
 
-//oda özellilerini oda id sine db den alan metod
+    public String getBed() {
+        return bed;
+    }
+
+    public void setBed(String bed) {
+        this.bed = bed;
+    }
+
+    public int getArea() {
+        return area;
+    }
+
+    public void setArea(int area) {
+        this.area = area;
+    }
+
+    //oda özellilerini oda id sine db den alan metod
     public static ArrayList<RoomProperties> getListByRoomID( int id){
         ArrayList<RoomProperties> roomPropertiesList = new ArrayList<>();
         RoomProperties obj;
@@ -69,7 +89,9 @@ public class RoomProperties {
             ResultSet rs = pr.executeQuery();
             while (rs.next()){
                 obj = new RoomProperties();
-                obj.setPropery(rs.getString("property"));
+                obj.setProperty(rs.getString("property"));
+                obj.setBed(rs.getString("bed"));
+                obj.setArea(rs.getInt("area"));
                 roomPropertiesList.add(obj);
             }
         } catch (SQLException e) {
@@ -77,6 +99,22 @@ public class RoomProperties {
         }
 
         return roomPropertiesList;
+    }
+
+
+    public static boolean add(String property, int room_id, String bed, int area){
+        String query = "INSERT INTO room_properties (property, room_id, bed, area ) VALUES (?,?,?,?)";
+        try {
+            PreparedStatement pr = DBConnector.getInstance().prepareStatement(query);
+            pr.setString(1,property);
+            pr.setInt(2,room_id);
+            pr.setString(3, bed);
+            pr.setInt(4, area);
+            return pr.executeUpdate() != -1;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return true;
     }
 
 
