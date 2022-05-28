@@ -42,30 +42,6 @@ public class Room {
         this.hotelType = HotelType.getFetch(hotel_type_id);
     }
 
-    public static boolean add(String room_type, int stock, int season_id, int adult_price, int child_price, int hotel_type_id, int hotel_id) {
-        String query = "INSERT INTO room (room_type, stock, season_id, adult_price, child_price, hotel_type_id, hotel_id) VALUES (?,?,?,?,?,?,?)";
-        try {
-            PreparedStatement pr = DBConnector.getInstance().prepareStatement(query);
-            pr.setString(1,room_type);
-            pr.setInt(2,stock);
-            pr.setInt(3,season_id);
-            pr.setInt(4,adult_price);
-            pr.setInt(5,child_price);
-            pr.setInt(6,hotel_type_id);
-            pr.setInt(7,hotel_id);
-
-            int response = pr.executeUpdate();
-
-            if (response == -1){
-                Helper.showMsg("error");
-            }
-            return response != -1;
-        } catch (SQLException e) {
-            System.out.println(e.getMessage());
-        }
-        return true;
-    }
-
     public int getId() {
         return id;
     }
@@ -181,7 +157,6 @@ public class Room {
         return roomList;
     }
 
-
 //oda özelliklerini oda id ye göre yazmak için gerekli metod
     public static Room getFetch(int id) {
         Room obj = null;
@@ -197,6 +172,30 @@ public class Room {
             e.printStackTrace();
         }
         return obj;
+    }
+
+    public static boolean add(String room_type, int stock, int season_id, int adult_price, int child_price, int hotel_type_id, int hotel_id) {
+        String query = "INSERT INTO room (room_type, stock, season_id, adult_price, child_price, hotel_type_id, hotel_id) VALUES (?,?,?,?,?,?,?)";
+        try {
+            PreparedStatement pr = DBConnector.getInstance().prepareStatement(query);
+            pr.setString(1,room_type);
+            pr.setInt(2,stock);
+            pr.setInt(3,season_id);
+            pr.setInt(4,adult_price);
+            pr.setInt(5,child_price);
+            pr.setInt(6,hotel_type_id);
+            pr.setInt(7,hotel_id);
+
+            int response = pr.executeUpdate();
+
+            if (response == -1){
+                Helper.showMsg("error");
+            }
+            return response != -1;
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+        return true;
     }
 
     public static Room getFetchByHotelID(int id) {
@@ -215,5 +214,54 @@ public class Room {
         return obj;
     }
 
+    public static Room getFetchByHotelIDSeasonID(int season_id, int hotel_id) {
+        String query = "SELECT * FROM room WHERE season_id = ? AND hotel_id = ?";
+        Room obj=null;
+        try {
+            PreparedStatement pr = DBConnector.getInstance().prepareStatement(query);
+            pr.setInt(1, season_id);
+            pr.setInt(2, hotel_id);
+            ResultSet rs = pr.executeQuery();
+            if (rs.next()){
+                obj = new Room();
+                obj.setId(rs.getInt("id"));
+                obj.setRoom_type(rs.getString("room_type"));
+                obj.setStock(rs.getInt("stock"));
+                obj.setSeason_id(rs.getInt("season_id"));
+                obj.setAdult_price(rs.getInt("adult_price"));
+                obj.setChild_price(rs.getInt("child_price"));
+                obj.setHotel_type_id(rs.getInt("hotel_type_id"));
+                obj.setHotel_id(rs.getInt("hotel_id"));  }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return obj;
+    }
 
+    public static ArrayList<Room> searchRoomList(int hotel_id){
+        ArrayList<Room> roomList = new ArrayList<>();
+        String query = "SELECT * FROM room WHERE hotel_id = ?";
+        Room obj;
+        try {
+            PreparedStatement pr = DBConnector.getInstance().prepareStatement(query);
+            pr.setInt(1, hotel_id);
+            ResultSet rs = pr.executeQuery();
+            while (rs.next()){
+                obj = new Room();
+                obj.setId(rs.getInt("id"));
+                obj.setRoom_type(rs.getString("room_type"));
+                obj.setStock(rs.getInt("stock"));
+                obj.setSeason_id(rs.getInt("season_id"));
+                obj.setAdult_price(rs.getInt("adult_price"));
+                obj.setChild_price(rs.getInt("child_price"));
+                obj.setHotel_type_id(rs.getInt("hotel_type_id"));
+                obj.setHotel_id(rs.getInt("hotel_id"));
+                roomList.add(obj);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return roomList;
+    }
 }

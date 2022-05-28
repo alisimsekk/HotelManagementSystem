@@ -24,37 +24,6 @@ public class HotelType {
 
     }
 
-    public static HotelType getFetch(int id) {
-        HotelType obj = null;
-        String query = "SELECT * FROM type_hotel WHERE id = ?";
-        try {
-            PreparedStatement pr = DBConnector.getInstance().prepareStatement(query);
-            pr.setInt(1, id);
-            ResultSet rs = pr.executeQuery();
-            if (rs.next()){
-                obj = new HotelType(rs.getInt("id"), rs.getString("type"), rs.getInt("hotel_id"));
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-
-        return obj;
-    }
-
-
-    public static boolean add(String type, int hotel_id) {
-        String query = "INSERT INTO type_hotel (type, hotel_id) VALUES (?,?)";
-        try {
-            PreparedStatement pr = DBConnector.getInstance().prepareStatement(query);
-            pr.setString(1,type);
-            pr.setInt(2, hotel_id);
-            return pr.executeUpdate() != -1;
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return true;
-    }
-
     public int getId() {
         return id;
     }
@@ -79,6 +48,36 @@ public class HotelType {
         this.hotel_id = hotel_id;
     }
 
+    public static HotelType getFetch(int id) {
+        HotelType obj = null;
+        String query = "SELECT * FROM type_hotel WHERE id = ?";
+        try {
+            PreparedStatement pr = DBConnector.getInstance().prepareStatement(query);
+            pr.setInt(1, id);
+            ResultSet rs = pr.executeQuery();
+            if (rs.next()){
+                obj = new HotelType(rs.getInt("id"), rs.getString("type"), rs.getInt("hotel_id"));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return obj;
+    }
+
+    public static boolean add(String type, int hotel_id) {
+        String query = "INSERT INTO type_hotel (type, hotel_id) VALUES (?,?)";
+        try {
+            PreparedStatement pr = DBConnector.getInstance().prepareStatement(query);
+            pr.setString(1,type);
+            pr.setInt(2, hotel_id);
+            return pr.executeUpdate() != -1;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return true;
+    }
+
     public static ArrayList<HotelType> getList(){
         ArrayList<HotelType> hotelTypeList = new ArrayList<>();
         HotelType obj;
@@ -99,7 +98,6 @@ public class HotelType {
 
         return hotelTypeList;
     }
-
 
 //konaklama tiplerinin hotel id sine db den alan metod
     public static ArrayList<HotelType> getListByHotelID( int id){
@@ -123,7 +121,4 @@ public class HotelType {
 
         return hotelTypeList;
     }
-
-
-
 }

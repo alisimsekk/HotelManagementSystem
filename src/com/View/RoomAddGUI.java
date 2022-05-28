@@ -33,8 +33,8 @@ public class RoomAddGUI extends JFrame {
 
     private String select_room_type;
     private int addedRoom_id;
-    private final Admin admin;
 
+    private final Admin admin;
 
     public RoomAddGUI(Admin admin) {
         this.admin = admin;
@@ -55,9 +55,7 @@ public class RoomAddGUI extends JFrame {
         loadHotelTypeCombo();
         loadSeasonCombo();
 
-
-
-//oda ekleme sayfasında seçilen odaya göre dinamil olarak pansiyon tipini getiren metod
+//oda ekleme sayfasında seçilen odaya göre dinamik olarak pansiyon tipini getiren metod
         cmb_room_hotelname.addActionListener(event -> {
             loadHotelTypeCombo();
             loadSeasonCombo();
@@ -149,7 +147,6 @@ public class RoomAddGUI extends JFrame {
         });
 //oda ekle butonu kodları bitişi
 
-
     }
 
 //Hotel isimlerini combo box a aktaran metod
@@ -181,12 +178,4 @@ public class RoomAddGUI extends JFrame {
             cmb_season.addItem(new Item(obj.getId(), (obj.getSeason_start() + "  -  " + obj.getSeason_end())));
         }
     }
-
-
-    public static void main(String[] args){
-        RoomAddGUI h = new RoomAddGUI(new Admin(4,"asd","asd","asd","admin"));
-    }
-
-
-
 }

@@ -206,6 +206,4 @@ public class User {
         return userList;
     }
 
-
-
-}//class parantezi
+}

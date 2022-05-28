@@ -101,7 +101,6 @@ public class RoomProperties {
         return roomPropertiesList;
     }
 
-
     public static boolean add(String property, int room_id, String bed, int area){
         String query = "INSERT INTO room_properties (property, room_id, bed, area ) VALUES (?,?,?,?)";
         try {
@@ -115,6 +114,23 @@ public class RoomProperties {
             e.printStackTrace();
         }
         return true;
+    }
+
+    public static RoomProperties getFetch(int id) {
+        RoomProperties obj = null;
+        String query = "SELECT * FROM room_properties WHERE room_id = ?";
+        try {
+            PreparedStatement pr = DBConnector.getInstance().prepareStatement(query);
+            pr.setInt(1, id);
+            ResultSet rs = pr.executeQuery();
+            if (rs.next()){
+                obj = new RoomProperties(rs.getInt("id"), rs.getString("property"), rs.getInt("room_id"), rs.getString("bed"), rs.getInt("area"));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return obj;
     }
 
 

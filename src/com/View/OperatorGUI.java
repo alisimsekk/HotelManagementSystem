@@ -36,8 +36,6 @@ public class OperatorGUI extends JFrame {
     private DefaultTableModel mdl_user_list;
     private Object[] row_user_list;
 
-
-
     private final Operator operator;
 
     public OperatorGUI(Operator operator){
@@ -59,7 +57,6 @@ public class OperatorGUI extends JFrame {
             }
         };
 
-
         Object[] col_user_list = {"ID", "Ad Soyad", "Kullanıcı Adı", "Şifre", "Yetki Tipi"};
         mdl_user_list.setColumnIdentifiers(col_user_list);
         row_user_list = new Object[col_user_list.length];
@@ -75,7 +72,6 @@ public class OperatorGUI extends JFrame {
                 fld_user_id.setText(select_user_id);
             }
             catch (Exception exception){
-
             }
         });
 
@@ -136,15 +132,8 @@ public class OperatorGUI extends JFrame {
             ArrayList<User> searchingUser = User.searchUserList(query);
             loadUserModel(searchingUser);
         });
-
-
-        //Kullanıcı sekmesi kodları bitişi
-
-
-
-    }//constractor parantezi
-
-
+//Kullanıcı sekmesi kodları bitişi
+    }
 
     private void loadUserModel() {
         DefaultTableModel clearModel = (DefaultTableModel) tbl_user_list.getModel();
@@ -176,7 +165,4 @@ public class OperatorGUI extends JFrame {
             mdl_user_list.addRow(row_user_list);
         }
     }
-
-
-
 }

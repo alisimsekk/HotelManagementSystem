@@ -8,7 +8,6 @@ import com.Model.User;
 
 import javax.swing.*;
 
-
 public class LoginGUI extends JFrame {
     private JPanel wrapper;
     private JPanel wbottom;
@@ -51,13 +50,8 @@ public class LoginGUI extends JFrame {
         });
     }
 
-
-
     public static void main(String[] args){
         Helper.setLayout();
         LoginGUI login = new LoginGUI();
-
-
     }
-
 }

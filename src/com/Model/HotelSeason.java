@@ -97,7 +97,6 @@ public class HotelSeason {
         return hotelSeasonList;
     }
 
-
 //konaklama sezonlarının hotel id sine db den alan metod
     public static ArrayList<HotelSeason> getListByHotelID( int id){
         ArrayList<HotelSeason> hotelSeasonList = new ArrayList<>();

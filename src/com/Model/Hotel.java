@@ -34,7 +34,6 @@ public class Hotel {
 
     }
 
-
     public int getId() {
         return id;
     }
@@ -180,6 +179,27 @@ public class Hotel {
         return true;
     }
 
-
-
+// girilen anahtar kelimeye göre search metodu
+    public static ArrayList<Hotel> searchHotelList(String query){
+        ArrayList<Hotel> hotelList = new ArrayList<>();
+        Hotel obj;
+        try {
+            Statement st = DBConnector.getInstance().createStatement();
+            ResultSet rs = st.executeQuery(query);
+            while (rs.next()){
+                obj = new Hotel();
+                obj.setId(rs.getInt("id"));
+                obj.setName(rs.getString("name"));
+                obj.setStar(rs.getString("star"));
+                obj.setProperty(rs.getString("property"));
+                obj.setAddress(rs.getString("address"));
+                obj.setPhone(rs.getString("phone"));
+                obj.setEmail(rs.getString("email"));
+                hotelList.add(obj);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return hotelList;
+    }
 }

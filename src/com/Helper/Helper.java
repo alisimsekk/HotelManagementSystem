@@ -70,7 +70,6 @@ public class Helper {
         return area.getText().trim().isEmpty();
     }
 
-
 // user search için dinamik query oluşturma
     public static String searchQuery (String name, String uname, String type) {
         String query = "SELECT * FROM user WHERE name LIKE '%{{name}}%' AND uname LIKE '%{{uname}}%' AND type LIKE '%{{type}}%'";
@@ -124,7 +123,6 @@ public class Helper {
         return type;
     }
 
-
 //Jradio lara oda özellikleri metinleri için, oda ekleme ekranındaki
     public static String roomProperty(String number){
         String property="";
@@ -147,9 +145,4 @@ public class Helper {
         }
         return property;
     }
-
-
-
-
-
 }

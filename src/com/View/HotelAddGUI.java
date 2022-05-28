@@ -9,7 +9,6 @@ import com.Model.HotelType;
 
 import javax.swing.*;
 
-
 public class HotelAddGUI extends JFrame {
     private JPanel wrapper;
     private JPanel pnl_hotel_add_top;
@@ -35,7 +34,7 @@ public class HotelAddGUI extends JFrame {
     private JTextField fld_hotel_season_end2;
 
     private String select_star;
-    private int added_hotel_id; //yeni eklenen hotelin id sini tutacak ve buna pansiyon türü ile sezonları ekleyecek
+    private int added_hotel_id; //yeni eklenen hotelin id sini tutacak
 
     private final Admin admin;
 
@@ -152,11 +151,5 @@ public class HotelAddGUI extends JFrame {
                 }
             }
         });
-
     }
-
-    public static void main(String[] args){
-        HotelAddGUI h = new HotelAddGUI(new Admin(4,"asd","asd","asd","admin"));
-    }
-
 }
